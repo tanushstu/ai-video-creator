@@ -1,0 +1,2 @@
+admin page  -  user management, api key, manage all projects
+user - create projects, sign in page (admin / user)
