@@ -45,21 +45,36 @@ CREATE POLICY "Workspace members can read API keys" ON public.workspace_api_keys
 -- ── Mark the super admin ──────────────────────────────────────
 UPDATE public.users SET role = 'super_admin' WHERE email = 'tanushmittal21@gmail.com';
 
+-- ── Helper functions ────────────────────────────────────────────
+-- A policy on public.users cannot safely query public.users directly in its
+-- own USING clause — that subquery re-triggers the same policy and recurses.
+-- SECURITY DEFINER functions run with elevated privilege and bypass RLS
+-- internally, breaking the recursion.
+CREATE OR REPLACE FUNCTION public.current_user_role()
+RETURNS text
+LANGUAGE sql SECURITY DEFINER SET search_path = public STABLE
+AS $$
+  SELECT role FROM public.users WHERE id = auth.uid();
+$$;
+
+CREATE OR REPLACE FUNCTION public.current_user_workspace_id()
+RETURNS uuid
+LANGUAGE sql SECURITY DEFINER SET search_path = public STABLE
+AS $$
+  SELECT workspace_id FROM public.users WHERE id = auth.uid();
+$$;
+
 -- ── Allow super_admin to read all users (for workspace member lists) ──
 DROP POLICY IF EXISTS "Super admin can read all users" ON public.users;
 CREATE POLICY "Super admin can read all users" ON public.users
   FOR SELECT TO authenticated
-  USING (
-    (SELECT role FROM public.users WHERE id = auth.uid()) = 'super_admin'
-  );
+  USING (public.current_user_role() = 'super_admin');
 
 -- ── Workspace admins can read members of their workspace ──────
 DROP POLICY IF EXISTS "Workspace admin can read workspace members" ON public.users;
 CREATE POLICY "Workspace admin can read workspace members" ON public.users
   FOR SELECT TO authenticated
   USING (
-    workspace_id IN (
-      SELECT workspace_id FROM public.users
-      WHERE id = auth.uid() AND role = 'workspace_admin'
-    )
+    public.current_user_role() = 'workspace_admin'
+    AND workspace_id = public.current_user_workspace_id()
   );
