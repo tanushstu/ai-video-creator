@@ -8,6 +8,12 @@ CREATE TABLE IF NOT EXISTS public.workspaces (
   created_at timestamptz DEFAULT now()
 );
 
+-- ── Extend users ──────────────────────────────────────────────
+-- Must run before any policy references users.workspace_id below.
+ALTER TABLE public.users ADD COLUMN IF NOT EXISTS workspace_id uuid REFERENCES public.workspaces(id) ON DELETE SET NULL;
+
+-- role column already exists (from 002); now also valid: 'workspace_admin' | 'super_admin'
+
 ALTER TABLE public.workspaces ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Members can view their workspace" ON public.workspaces;
@@ -16,11 +22,6 @@ CREATE POLICY "Members can view their workspace" ON public.workspaces
   USING (
     id IN (SELECT workspace_id FROM public.users WHERE id = auth.uid())
   );
-
--- ── Extend users ──────────────────────────────────────────────
-ALTER TABLE public.users ADD COLUMN IF NOT EXISTS workspace_id uuid REFERENCES public.workspaces(id) ON DELETE SET NULL;
-
--- role column already exists (from 002); now also valid: 'workspace_admin' | 'super_admin'
 
 -- ── Per-workspace API keys ────────────────────────────────────
 CREATE TABLE IF NOT EXISTS public.workspace_api_keys (
@@ -42,8 +43,7 @@ CREATE POLICY "Workspace members can read API keys" ON public.workspace_api_keys
   );
 
 -- ── Mark the super admin ──────────────────────────────────────
--- IMPORTANT: Replace the email below with your actual super admin email before running
-UPDATE public.users SET role = 'super_admin' WHERE email = 'REPLACE_WITH_YOUR_ADMIN_EMAIL';
+UPDATE public.users SET role = 'super_admin' WHERE email = 'tanushmittal21@gmail.com';
 
 -- ── Allow super_admin to read all users (for workspace member lists) ──
 DROP POLICY IF EXISTS "Super admin can read all users" ON public.users;
