@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import InputWorkspace from '@/components/InputWorkspace';
 import ProgressTracker from '@/components/ProgressTracker';
 import ScriptDisplay from '@/components/ScriptDisplay';
@@ -77,6 +76,14 @@ function DashboardContent() {
           .single();
         if (profile?.role === 'editor') {
           router.push('/editor');
+          return;
+        }
+        if (profile?.role === 'super_admin') {
+          router.push('/super-admin');
+          return;
+        }
+        if (profile?.role === 'workspace_admin') {
+          router.push('/workspace-admin');
           return;
         }
         setUsername(profile?.username ?? user.email?.split('@')[0] ?? '');
@@ -223,12 +230,6 @@ function DashboardContent() {
                 </a>
               </li>
             )}
-            <li>
-              <Link href="/admin" className="flex items-center gap-3 px-4 py-3 text-[#414942] hover:bg-[#f1f4f2] hover:text-[#002c17] transition-colors rounded-lg ml-1">
-                <span className="material-symbols-outlined text-[20px]">admin_panel_settings</span>
-                <span className="text-sm">Admin</span>
-              </Link>
-            </li>
           </ul>
 
           {/* Recent history */}

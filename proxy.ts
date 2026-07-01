@@ -29,25 +29,15 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Redirect authenticated users away from auth pages
-  if (user && (pathname === '/login' || pathname === '/signup')) {
-    const dest = user.email === process.env.ADMIN_EMAIL ? '/admin' : '/dashboard';
-    return NextResponse.redirect(new URL(dest, request.url));
+  if (user && pathname === '/login') {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  // Protect /dashboard — and send admin there to /admin instead
-  if (pathname.startsWith('/dashboard')) {
-    if (!user) return NextResponse.redirect(new URL('/login', request.url));
-    if (user.email === process.env.ADMIN_EMAIL) {
-      return NextResponse.redirect(new URL('/admin', request.url));
-    }
-  }
-
-  // Protect /admin — must be authenticated AND be the admin email
-  if (pathname.startsWith('/admin')) {
-    if (!user) return NextResponse.redirect(new URL('/login', request.url));
-    if (user.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
+  // Protect authenticated-only routes — role-specific portals redirect
+  // themselves further (see app/dashboard/page.tsx) once the user's role loads.
+  const protectedPrefixes = ['/dashboard', '/super-admin', '/workspace-admin', '/editor'];
+  if (protectedPrefixes.some((prefix) => pathname.startsWith(prefix)) && !user) {
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   return supabaseResponse;
