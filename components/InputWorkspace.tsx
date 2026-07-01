@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Wand2, ChevronDown } from 'lucide-react';
 
 const VOICE_OPTIONS = [
   { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel (Female, American)' },
@@ -24,7 +23,7 @@ const AVATAR_OPTIONS = [
   { id: 'custom', name: 'Custom Avatar ID...' },
 ];
 
-const WORDS_PER_SECOND = 2.5; // ~150 wpm
+const WORDS_PER_SECOND = 2.5;
 
 const EXAMPLE_PROMPTS = [
   'The future of AI in everyday life and how it will transform how we work',
@@ -56,30 +55,48 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
     resolvedAvatarId.length > 5 &&
     !disabled;
 
+  const inputClass =
+    'w-full bg-[#f1f4f2] border-2 border-transparent focus:border-[#002c17] focus:bg-white rounded-lg p-3 text-base text-[#181c1b] transition-colors placeholder:text-[#717972] outline-none disabled:opacity-50';
+
+  const selectClass =
+    'w-full bg-[#f1f4f2] border border-[#c0c9c0] rounded-lg px-3 py-2.5 text-sm text-[#181c1b] appearance-none focus:outline-none focus:border-[#002c17] transition-colors disabled:opacity-50 pr-8';
+
   return (
     <div className="space-y-4">
       {/* Topic input */}
-      <div className="bg-[#1a1f2e] border border-white/10 rounded-2xl p-5">
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          Video Topic / Prompt
-        </label>
-        <textarea
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          disabled={disabled}
-          placeholder="Describe your video topic in detail. E.g: 'The future of renewable energy and how solar panels will power entire cities by 2030...'"
-          rows={5}
-          className="w-full bg-[#0d1117] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none disabled:opacity-50"
-        />
-        <div className="flex items-center justify-between mt-2">
-          <span className="text-xs text-slate-600">{prompt.length} chars</span>
+      <div className="bg-white rounded-[1.5rem] border border-[#c0c9c0] shadow-sm p-6 flex flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#002c17]">edit_document</span>
+          <h3
+            className="text-2xl font-semibold text-[#002c17]"
+            style={{ fontFamily: "var(--font-hanken-grotesk), 'Hanken Grotesk', sans-serif" }}
+          >
+            Phase 1: Concept to Script
+          </h3>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-[#414942]" htmlFor="topic-input">
+            What is your video about?
+          </label>
+          <textarea
+            id="topic-input"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            disabled={disabled}
+            placeholder="e.g., A 60-second explainer video about the benefits of renewable energy, aimed at small business owners. Tone should be professional but optimistic."
+            rows={4}
+            className={`${inputClass} resize-none`}
+          />
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-[#717972]">{prompt.length} chars</span>
           <div className="flex gap-2">
             {EXAMPLE_PROMPTS.slice(0, 2).map((ex, i) => (
               <button
                 key={i}
                 onClick={() => setPrompt(ex)}
                 disabled={disabled}
-                className="text-xs text-indigo-400 hover:text-indigo-300 border border-indigo-500/30 hover:border-indigo-400/50 rounded-lg px-2 py-1 transition-colors disabled:opacity-40"
+                className="text-xs text-[#35684a] hover:text-[#002c17] border border-[#35684a]/30 hover:border-[#002c17]/50 rounded-full px-3 py-1 transition-colors disabled:opacity-40"
               >
                 Example {i + 1}
               </button>
@@ -90,9 +107,9 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
 
       {/* Config row */}
       <div className="grid grid-cols-2 gap-4">
-        {/* Voice selection */}
-        <div className="bg-[#1a1f2e] border border-white/10 rounded-2xl p-4">
-          <label className="block text-xs font-medium text-slate-400 mb-2">
+        {/* Voice */}
+        <div className="bg-white rounded-[1.5rem] border border-[#c0c9c0] shadow-sm p-4">
+          <label className="block text-xs font-semibold text-[#414942] mb-2 uppercase tracking-wider">
             ElevenLabs Voice
           </label>
           <div className="relative">
@@ -100,7 +117,7 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
               value={voiceId}
               onChange={(e) => setVoiceId(e.target.value)}
               disabled={disabled}
-              className="w-full bg-[#0d1117] border border-white/10 rounded-lg px-3 py-2 text-sm text-white appearance-none focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-50 pr-8"
+              className={selectClass}
             >
               {VOICE_OPTIONS.map((v) => (
                 <option key={v.id} value={v.id}>
@@ -108,10 +125,9 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
                 </option>
               ))}
             </select>
-            <ChevronDown
-              size={14}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
-            />
+            <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#717972] pointer-events-none text-[18px]">
+              expand_more
+            </span>
           </div>
           {voiceId === 'custom' && (
             <input
@@ -119,14 +135,14 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
               value={customVoiceId}
               onChange={(e) => setCustomVoiceId(e.target.value)}
               placeholder="Enter Voice ID"
-              className="mt-2 w-full bg-[#0d1117] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+              className="mt-2 w-full bg-[#f1f4f2] border border-[#c0c9c0] rounded-lg px-3 py-2 text-sm text-[#181c1b] placeholder-[#717972] focus:outline-none focus:border-[#002c17] transition-colors"
             />
           )}
         </div>
 
-        {/* Avatar selection */}
-        <div className="bg-[#1a1f2e] border border-white/10 rounded-2xl p-4">
-          <label className="block text-xs font-medium text-slate-400 mb-2">
+        {/* Avatar */}
+        <div className="bg-white rounded-[1.5rem] border border-[#c0c9c0] shadow-sm p-4">
+          <label className="block text-xs font-semibold text-[#414942] mb-2 uppercase tracking-wider">
             HeyGen Avatar
           </label>
           <div className="relative">
@@ -134,7 +150,7 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
               value={avatarId}
               onChange={(e) => setAvatarId(e.target.value)}
               disabled={disabled}
-              className="w-full bg-[#0d1117] border border-white/10 rounded-lg px-3 py-2 text-sm text-white appearance-none focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-50 pr-8"
+              className={selectClass}
             >
               {AVATAR_OPTIONS.map((a) => (
                 <option key={a.id} value={a.id}>
@@ -142,10 +158,9 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
                 </option>
               ))}
             </select>
-            <ChevronDown
-              size={14}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
-            />
+            <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#717972] pointer-events-none text-[18px]">
+              expand_more
+            </span>
           </div>
           {avatarId === 'custom' && (
             <input
@@ -153,15 +168,15 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
               value={customAvatarId}
               onChange={(e) => setCustomAvatarId(e.target.value)}
               placeholder="Enter Avatar ID"
-              className="mt-2 w-full bg-[#0d1117] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+              className="mt-2 w-full bg-[#f1f4f2] border border-[#c0c9c0] rounded-lg px-3 py-2 text-sm text-[#181c1b] placeholder-[#717972] focus:outline-none focus:border-[#002c17] transition-colors"
             />
           )}
         </div>
       </div>
 
-      {/* Duration selector */}
-      <div className="bg-[#1a1f2e] border border-white/10 rounded-2xl p-4">
-        <label className="block text-xs font-medium text-slate-400 mb-3">
+      {/* Duration */}
+      <div className="bg-white rounded-[1.5rem] border border-[#c0c9c0] shadow-sm p-4">
+        <label className="block text-xs font-semibold text-[#414942] mb-3 uppercase tracking-wider">
           Video Duration (seconds)
         </label>
         <div className="flex items-center gap-3">
@@ -174,13 +189,14 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
               setDurationSeconds(v);
             }}
             disabled={disabled}
-            className="w-28 bg-[#0d1117] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-50 text-center"
+            className="w-28 bg-[#f1f4f2] border border-[#c0c9c0] rounded-lg px-3 py-2 text-sm text-[#181c1b] focus:outline-none focus:border-[#002c17] transition-colors disabled:opacity-50 text-center"
           />
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-[#414942]">
             sec &nbsp;·&nbsp; ~{Math.round(durationSeconds * WORDS_PER_SECOND)} words
             {durationSeconds >= 60 && (
-              <span className="ml-1 text-slate-600">
-                ({Math.floor(durationSeconds / 60)}m{durationSeconds % 60 > 0 ? ` ${durationSeconds % 60}s` : ''})
+              <span className="ml-1 text-[#717972]">
+                ({Math.floor(durationSeconds / 60)}m
+                {durationSeconds % 60 > 0 ? ` ${durationSeconds % 60}s` : ''})
               </span>
             )}
           </span>
@@ -191,10 +207,19 @@ export default function InputWorkspace({ onGenerate, isRunning, disabled }: Prop
       <button
         onClick={() => onGenerate(prompt.trim(), resolvedVoiceId, resolvedAvatarId, durationSeconds)}
         disabled={!canGenerate}
-        className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 disabled:shadow-none text-sm"
+        className="w-full bg-[#002c17] text-white font-semibold py-3.5 rounded-full hover:bg-[#35684a] disabled:bg-[#e0e3e1] disabled:text-[#717972] transition-colors inset-shadow-active flex items-center justify-center gap-2 shadow-sm"
       >
-        <Wand2 size={18} />
-        {isRunning ? 'Generating...' : 'Generate Script'}
+        {isRunning ? (
+          <>
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            Generating...
+          </>
+        ) : (
+          <>
+            <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
+            Generate Script
+          </>
+        )}
       </button>
     </div>
   );

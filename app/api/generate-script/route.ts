@@ -34,7 +34,10 @@ Rules:
 - Write in a natural, spoken-word style (no stage directions, no parenthetical notes)
 - Keep sentences short and punchy for good pacing
 - Structure: Hook → Main Content → Call to Action
-- Target length: exactly ${targetWords} words (${duration} seconds of speech at ~150 words per minute)
+- CRITICAL TIMING CONSTRAINT: The video MUST be exactly ${duration} seconds long. At a speaking rate of 150 words per minute, your script MUST be exactly ${targetWords} words.
+- To hit this length accurately, you MUST write exactly ${Math.max(1, Math.round(targetWords / 15))} sentences. 
+- DO NOT finish early. If your script is too short, expand on details, provide examples, or lengthen the call to action.
+- STRICT LIMIT: You must output between ${Math.floor(targetWords * 0.95)} and ${Math.ceil(targetWords * 1.05)} words. Count your words carefully before responding.
 - Output ONLY the script text, no labels, no headings, no formatting
 - No markdown, no asterisks, no special characters`,
           },

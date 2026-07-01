@@ -7,6 +7,7 @@ export function initialSteps(): PipelineStep[] {
     { id: 'upload', label: 'Upload Audio Asset', status: 'pending' },
     { id: 'video', label: 'Initialize Video', status: 'pending' },
     { id: 'poll', label: 'Process & Render Video', status: 'pending' },
+    { id: 'submagic', label: 'Submagic AI Editing', status: 'pending' },
   ];
 }
 
@@ -171,11 +172,12 @@ export async function runMediaPhase(
     setState((prev) => ({ ...prev, projectId }));
   }
 
-  // Step 5: Poll for completion
+  // Step 5: Poll for HeyGen completion
   updateStep(setState, 'poll', { status: 'running', startTime: Date.now() });
   let delay = 5000;
   const maxDelay = 30000;
   const maxAttempts = 60;
+  let heyGenVideoUrl = '';
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     await new Promise((r) => setTimeout(r, delay));
@@ -189,9 +191,9 @@ export async function runMediaPhase(
 
       if (res.status === 'completed' && res.videoUrl) {
         updateStep(setState, 'poll', { status: 'completed', endTime: Date.now() });
-        setState((prev) => ({ ...prev, status: 'completed', videoUrl: res.videoUrl }));
+        setState((prev) => ({ ...prev, status: 'heygen-completed', videoUrl: res.videoUrl, heygenVideoUrl: res.videoUrl }));
         if (projectId) {
-          await updateProject(projectId, { status: 'completed', video_url: res.videoUrl });
+          await updateProject(projectId, { status: 'heygen-completed', video_url: res.videoUrl });
         }
         onComplete(res.videoUrl, projectId);
         return;
@@ -210,12 +212,89 @@ export async function runMediaPhase(
         updateStep(setState, 'poll', { status: 'error', error: msg, endTime: Date.now() });
         setState((prev) => ({ ...prev, status: 'error', error: msg }));
         if (projectId) await updateProject(projectId, { status: 'error' });
+        return;
       }
     }
   }
 
   const msg = 'Video processing timed out after 10 minutes. Check HeyGen dashboard.';
   updateStep(setState, 'poll', { status: 'error', error: msg, endTime: Date.now() });
+  setState((prev) => ({ ...prev, status: 'error', error: msg }));
+  if (projectId) await updateProject(projectId, { status: 'error' });
+}
+
+export async function runSubmagicPhase(
+  heyGenVideoUrl: string,
+  prompt: string,
+  projectId: string | null,
+  submagicOptions: any,
+  setState: StepUpdater,
+  onComplete: (videoUrl: string) => void,
+): Promise<void> {
+  setState((prev) => ({ ...prev, status: 'processing-submagic' }));
+  updateStep(setState, 'submagic', { status: 'running', startTime: Date.now() });
+  
+  let submagicId = '';
+  try {
+    const res = await apiFetch<{ projectId: string }>('/api/generate-submagic', { 
+      videoUrl: heyGenVideoUrl,
+      title: prompt.substring(0, 50),
+      ...submagicOptions 
+    });
+    submagicId = res.projectId;
+    setState((prev) => ({ ...prev, submagicId }));
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Submagic generation failed';
+    updateStep(setState, 'submagic', { status: 'error', error: msg, endTime: Date.now() });
+    setState((prev) => ({ ...prev, status: 'error', error: msg }));
+    if (projectId) await updateProject(projectId, { status: 'error' });
+    return;
+  }
+
+  // Step 7: Poll Submagic
+  let delay = 5000;
+  const maxDelay = 30000;
+  const maxAttempts = 60;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    await new Promise((r) => setTimeout(r, delay));
+    delay = Math.min(delay * 1.4, maxDelay);
+
+    try {
+      const res = await apiFetch<{ status: string; videoUrl?: string; error?: string }>(
+        '/api/poll-submagic',
+        { projectId: submagicId }
+      );
+
+      if (res.status === 'completed' && res.videoUrl) {
+        updateStep(setState, 'submagic', { status: 'completed', endTime: Date.now() });
+        setState((prev) => ({ ...prev, status: 'completed', videoUrl: res.videoUrl }));
+        if (projectId) {
+          await updateProject(projectId, { status: 'completed', video_url: res.videoUrl });
+        }
+        onComplete(res.videoUrl);
+        return;
+      }
+
+      if (res.status === 'failed') {
+        const msg = `Submagic rendering failed: ${res.error || 'Unknown reason'}`;
+        updateStep(setState, 'submagic', { status: 'error', error: msg, endTime: Date.now() });
+        setState((prev) => ({ ...prev, status: 'error', error: msg }));
+        if (projectId) await updateProject(projectId, { status: 'error' });
+        return;
+      }
+    } catch (err: unknown) {
+      if (attempt === maxAttempts - 1) {
+        const msg = err instanceof Error ? err.message : 'Submagic polling timed out';
+        updateStep(setState, 'submagic', { status: 'error', error: msg, endTime: Date.now() });
+        setState((prev) => ({ ...prev, status: 'error', error: msg }));
+        if (projectId) await updateProject(projectId, { status: 'error' });
+        return;
+      }
+    }
+  }
+
+  const msg = 'Submagic processing timed out after 10 minutes.';
+  updateStep(setState, 'submagic', { status: 'error', error: msg, endTime: Date.now() });
   setState((prev) => ({ ...prev, status: 'error', error: msg }));
   if (projectId) await updateProject(projectId, { status: 'error' });
 }

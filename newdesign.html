@@ -1,0 +1,858 @@
+<!-- Design System -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Vid Creator - Login &amp; Signup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#002110",
+                        "outline-variant": "#c0c9c0",
+                        "on-primary-fixed-variant": "#1c5034",
+                        "tertiary-fixed": "#aff1c5",
+                        "tertiary-fixed-dim": "#94d5aa",
+                        "outline": "#717972",
+                        "inverse-primary": "#9cd3ae",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#ebefed",
+                        "on-tertiary-fixed-variant": "#0d5131",
+                        "surface": "#f7faf8",
+                        "primary-fixed-dim": "#9cd3ae",
+                        "tertiary": "#002c17",
+                        "surface-variant": "#e0e3e1",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#a4d71e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#181c1b",
+                        "on-primary-container": "#7cb18e",
+                        "surface-container-highest": "#e0e3e1",
+                        "inverse-surface": "#2d3130",
+                        "primary-fixed": "#b8efc9",
+                        "secondary": "#4c6700",
+                        "surface-tint": "#35684a",
+                        "surface-container-low": "#f1f4f2",
+                        "on-tertiary-container": "#74b38a",
+                        "on-secondary-container": "#506c00",
+                        "tertiary-container": "#004527",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#181c1b",
+                        "on-surface-variant": "#414942",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary": "#002c17",
+                        "surface-dim": "#d7dbd9",
+                        "secondary-fixed": "#bff43f",
+                        "on-tertiary-fixed": "#002110",
+                        "secondary-container": "#bcf13c",
+                        "surface-bright": "#f7faf8",
+                        "surface-container-high": "#e6e9e7",
+                        "primary-container": "#0d4429",
+                        "on-secondary-fixed-variant": "#384e00",
+                        "inverse-on-surface": "#eef1ef",
+                        "on-secondary-fixed": "#151f00",
+                        "background": "#f7faf8",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "2.5rem",
+                        "stack-gap": "1rem",
+                        "sidebar-width": "280px",
+                        "card-padding": "1.5rem",
+                        "gutter": "1.5rem",
+                        "container-margin": "2rem"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 234, 231, 0.8);
+            box-shadow: 0 20px 40px -10px rgba(13, 68, 41, 0.05);
+        }
+        
+        .input-field {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .input-field:focus-within {
+            border-color: #002c17;
+            box-shadow: 0 0 0 1px #002c17;
+            background-color: #ffffff;
+        }
+
+        .btn-primary {
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .social-btn {
+            transition: all 0.2s ease;
+        }
+
+        .social-btn:hover {
+            background-color: #ebefed;
+        }
+    </style>
+</head>
+<body class="bg-surface min-h-screen flex items-center justify-center p-gutter relative overflow-hidden">
+<!-- Decorative Background Elements -->
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute -top-40 -left-40 w-96 h-96 bg-primary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+<div class="absolute top-40 right-10 w-72 h-72 bg-secondary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-20" style="animation: pulse 8s infinite alternate;"></div>
+<div class="absolute -bottom-20 left-1/3 w-80 h-80 bg-tertiary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-20" style="animation: pulse 6s infinite alternate-reverse;"></div>
+</div>
+<!-- Login Container -->
+<div class="w-full max-w-md z-10 relative">
+<!-- Brand Header -->
+<div class="text-center mb-8">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary text-on-primary mb-4 shadow-sm">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">video_camera_front</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-primary tracking-tight">AI Vid Creator</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">Enterprise-grade AI video generation.</p>
+</div>
+<!-- Glass Card -->
+<div class="glass-panel rounded-xl p-card-padding">
+<!-- Tabs -->
+<div class="flex border-b border-surface-variant mb-6 relative">
+<button class="flex-1 pb-3 text-label-md font-label-md text-primary font-bold border-b-2 border-secondary-fixed relative z-10 transition-colors">Log In</button>
+<button class="flex-1 pb-3 text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors">Sign Up</button>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-5" method="POST">
+<!-- Email Field -->
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface mb-1.5" for="email">Email Address</label>
+<div class="input-field flex items-center bg-surface-container-low border border-surface-variant rounded-lg px-3 py-2.5">
+<span class="material-symbols-outlined text-outline mr-2 text-[20px]">mail</span>
+<input class="w-full bg-transparent border-none p-0 text-body-md font-body-md text-on-surface placeholder-outline focus:ring-0" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="block text-label-sm font-label-sm text-on-surface" for="password">Password</label>
+<a class="text-label-sm font-label-sm text-primary hover:text-surface-tint transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="input-field flex items-center bg-surface-container-low border border-surface-variant rounded-lg px-3 py-2.5">
+<span class="material-symbols-outlined text-outline mr-2 text-[20px]">lock</span>
+<input class="w-full bg-transparent border-none p-0 text-body-md font-body-md text-on-surface placeholder-outline focus:ring-0" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="text-outline hover:text-on-surface transition-colors focus:outline-none ml-2" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="btn-primary w-full bg-primary text-on-primary rounded-lg py-3 text-label-md font-label-md font-bold mt-2 shadow-sm flex items-center justify-center gap-2 hover:bg-surface-tint" type="submit">
+                    Sign In
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-6">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-surface-variant"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-3 bg-white text-label-sm font-label-sm text-outline">Or continue with</span>
+</div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-3">
+<button class="social-btn flex items-center justify-center gap-2 border border-surface-variant bg-surface-container-lowest rounded-lg py-2.5 text-label-md font-label-md text-on-surface hover:border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1" type="button">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                    Google
+                </button>
+<button class="social-btn flex items-center justify-center gap-2 border border-surface-variant bg-surface-container-lowest rounded-lg py-2.5 text-label-md font-label-md text-on-surface hover:border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1" type="button">
+<svg aria-hidden="true" class="w-5 h-5 text-[#181717]" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
+</svg>
+                    GitHub
+                </button>
+</div>
+<p class="text-center mt-6 text-label-sm font-label-sm text-outline">
+                By logging in, you agree to our <a class="text-primary hover:underline" href="#">Terms of Service</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+            </p>
+</div>
+</div>
+</body></html>
+
+<!-- Auth Pages -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Vid Creator - Create AI Talking-Avatar Videos in Minutes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#002110",
+                      "outline-variant": "#c0c9c0",
+                      "on-primary-fixed-variant": "#1c5034",
+                      "tertiary-fixed": "#aff1c5",
+                      "tertiary-fixed-dim": "#94d5aa",
+                      "outline": "#717972",
+                      "inverse-primary": "#9cd3ae",
+                      "error-container": "#ffdad6",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#ebefed",
+                      "on-tertiary-fixed-variant": "#0d5131",
+                      "surface": "#f7faf8",
+                      "primary-fixed-dim": "#9cd3ae",
+                      "tertiary": "#002c17",
+                      "surface-variant": "#e0e3e1",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#a4d71e",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#181c1b",
+                      "on-primary-container": "#7cb18e",
+                      "surface-container-highest": "#e0e3e1",
+                      "inverse-surface": "#2d3130",
+                      "primary-fixed": "#b8efc9",
+                      "secondary": "#4c6700",
+                      "surface-tint": "#35684a",
+                      "surface-container-low": "#f1f4f2",
+                      "on-tertiary-container": "#74b38a",
+                      "on-secondary-container": "#506c00",
+                      "tertiary-container": "#004527",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#181c1b",
+                      "on-surface-variant": "#414942",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "primary": "#002c17",
+                      "surface-dim": "#d7dbd9",
+                      "secondary-fixed": "#bff43f",
+                      "on-tertiary-fixed": "#002110",
+                      "secondary-container": "#bcf13c",
+                      "surface-bright": "#f7faf8",
+                      "surface-container-high": "#e6e9e7",
+                      "primary-container": "#0d4429",
+                      "on-secondary-fixed-variant": "#384e00",
+                      "inverse-on-surface": "#eef1ef",
+                      "on-secondary-fixed": "#151f00",
+                      "background": "#f7faf8",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "2.5rem",
+                      "stack-gap": "1rem",
+                      "sidebar-width": "280px",
+                      "card-padding": "1.5rem",
+                      "gutter": "1.5rem",
+                      "container-margin": "2rem"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "label-sm": ["Inter"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                      "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+              }
+            }
+          }
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-md text-primary docked full-width top-0 sticky z-50 shadow-sm border-b border-outline-variant flex justify-between items-center w-full px-gutter h-16">
+<div class="flex items-center gap-6">
+<span class="text-headline-md font-headline-md font-extrabold text-primary">AI Vid Creator</span>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors" href="#">Templates</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors" href="#">Resources</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant/20 transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 0;">search</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant/20 transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant/20 transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="help" style="font-variation-settings: 'FILL' 0;">help</span>
+</button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-colors">
+                New Video
+            </button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant ml-2">
+<img class="w-full h-full object-cover" data-alt="A small circular avatar showing a professional user smiling warmly. The setting is bright and clean, utilizing a modern light mode aesthetic with soft shadows. The color palette focuses on sterile whites and subtle forest green accents, reflecting precision and efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnjwOYWr6mX-rh9Uka5I7w2POVv9eBZu1F-ljc8oQ6sR19eJ08kO00Z4-9Q4oJTt1Xv9BnoPmYtpoOwjCj3clDxGHS-lSiAQPWZVIx7XN-wWKxKkL9difuynXCFPgXOGvRA9k_iE3v8uIrigXm6cIaaR0qZ8rULF0zj1TlAhEXmak13ExPKLF4DLytDOcndBtBlowHfCzVXhXOmEinaWRpZr-nqSfOctXetsnBCqQBqs94GCEbeiZabSOWJDmD2we2r_VL3AbNSIZa"/>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative pt-24 pb-32 px-container-margin overflow-hidden">
+<!-- Background Kinetic Elements -->
+<div class="absolute inset-0 z-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 80% 20%, #bff43f 0%, transparent 40%), radial-gradient(circle at 20% 80%, #002c17 0%, transparent 40%);"></div>
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed/20 text-on-secondary-fixed font-label-sm text-label-sm border border-secondary-fixed/30">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed"></span>
+                        Enterprise AI Video Platform
+                    </div>
+<h1 class="text-display-lg font-display-lg text-primary max-w-2xl">
+                        Create AI Talking-Avatar Videos in <span class="text-surface-tint relative">Minutes.<svg class="absolute -bottom-2 left-0 w-full h-3 text-secondary-fixed" preserveaspectratio="none" viewbox="0 0 100 20"><path d="M0 10 Q 50 20 100 10" fill="none" stroke="currentColor" stroke-width="4"></path></svg></span>
+</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-xl">
+                        Turn text scripts into professional video content using NVIDIA Llama 3 for intelligent scripting, ElevenLabs for hyper-realistic voices, and HeyGen for lifelike avatars.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-surface-tint transition-all active:scale-95 shadow-sm flex items-center gap-2">
+                            Start Creating Free
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="bg-transparent border border-outline text-on-surface px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-surface-container-low transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+                            Watch Demo
+                        </button>
+</div>
+<div class="pt-8 flex items-center gap-4 text-label-sm font-label-sm text-on-surface-variant">
+<span>Powered by:</span>
+<span class="font-bold">NVIDIA</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-bold">ElevenLabs</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-bold">HeyGen</span>
+</div>
+</div>
+<div class="relative">
+<!-- Bento Grid for Avatars -->
+<div class="grid grid-cols-12 grid-rows-6 gap-4 h-[600px]">
+<div class="col-span-8 row-span-4 rounded-[1.5rem] overflow-hidden bg-surface-container-lowest shadow-sm border border-outline-variant relative group">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgVadtiFCa1mDbQfXdhdDiWAcm-yFq4s5pxcUbp2afYYcij4gci_0AYjcvCIX88FAhbHWwvAs1L6rrJqphAlSY1m9AvFpE1hisReWDaJGIo2ncEd7t5eqPmaYoujXP305JFX9qQ4138jkLluc8rpykLqhlmLZSzX6xjmJWkNKJ4p2lce-rC3siEweMYBg0SA2CSPdlxSnGM76oCDXqan-RN4yw-ziq1Q_02Qixolpq08L0xGHQdK5CncnyA9JNv0sAhSNX17q8TMUz"/>
+<div class="absolute inset-0 bg-primary/10 group-hover:bg-primary/0 transition-colors duration-500"></div>
+<!-- Floating Glass UI element -->
+<div class="absolute bottom-6 left-6 right-6 bg-surface/80 backdrop-blur-md rounded-xl p-4 border border-outline-variant flex items-center gap-4 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+<button class="w-12 h-12 bg-secondary-fixed rounded-full flex items-center justify-center text-on-secondary-fixed shadow-sm hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="play_arrow" data-weight="fill" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Generating script...</p>
+<div class="w-32 h-1.5 bg-surface-variant rounded-full mt-2 overflow-hidden">
+<div class="w-2/3 h-full bg-secondary-fixed rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-4 row-span-3 rounded-[1.5rem] overflow-hidden bg-surface-container-lowest shadow-sm border border-outline-variant relative">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of an AI generated talking avatar, an older man in a tailored grey suit. The image has a clean, corporate modern aesthetic with deep forest green accents. The lighting is crisp and even, highlighting the photorealistic details of the avatar against a bright white background, conveying precision engineered creativity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArFOnFqUFW9L4ZmmkTDt-Uz721NZKNBrhOEhFKYl8Iqt6RZ_olyrez43DkpA8VrciNX_nmvj1vnQd26YHDUGW5jm9Bum2JIsFx47rjuMtcUjGPv_oEfiiWtXR3i7z1Tw0--spj1SgFULdRdGVsfes5Yu6hmKeqx6vdymZFK-NBqJl6e5RKaLDu9JQvMHEpr12wVzqJ-jYVpu-nz8S0AW-KahyTn1t4i9QaI3TFh4dKIxOPxmfGiD0150cEHMSr52Ifwg3SMLbJOc1K"/>
+</div>
+<div class="col-span-4 row-span-3 rounded-[1.5rem] overflow-hidden bg-surface-container-lowest shadow-sm border border-outline-variant relative">
+<img class="w-full h-full object-cover" data-alt="A portrait of a diverse female AI avatar wearing smart-casual attire in a modern studio setting. The visual style is kinetic emerald, pairing stark white surroundings with vibrant lime green subtle highlights. The mood is approachable yet powerful, designed for enterprise communication platforms with minimal cognitive load." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRWE-FQeoUCl7pFKuDeVb90W1SV2MvpHCnUl2H5uazxJhoewx8TqzX-b-qt3GFp4-BM56w_xq0VH1yDULCuMi2iIaegqHhVaLLNwa3ZtlazammFf1VazGridxj6iBlimPI2RR9aaYQ1d-64bgi0UPpcKvqLRPHH79TiJIVzsbZ8-zjAAsdo02aJ-J97ZwDJRaSKr0i1oAJ3ls99f_wmJVJawGRxAmOr6Cik38GUKnSKr9prtKWAs4Z-pvqD84nSCIjnTeqZ61S8gzB"/>
+</div>
+<div class="col-span-8 row-span-2 rounded-[1.5rem] overflow-hidden bg-surface-container-lowest shadow-sm border border-outline-variant p-6 flex flex-col justify-center relative">
+<!-- Abstract audio visualization -->
+<div class="flex items-end gap-1 h-full w-full opacity-60">
+<div class="w-full h-full flex items-end gap-[2px]">
+<!-- Generating random height bars for visual -->
+<div class="w-flex-1 bg-surface-tint rounded-t-sm h-[20%]"></div>
+<div class="w-flex-1 bg-secondary-fixed rounded-t-sm h-[40%]"></div>
+<div class="w-flex-1 bg-surface-tint rounded-t-sm h-[70%]"></div>
+<div class="w-flex-1 bg-secondary-fixed rounded-t-sm h-[50%]"></div>
+<div class="w-flex-1 bg-surface-tint rounded-t-sm h-[80%]"></div>
+<div class="w-flex-1 bg-secondary-fixed rounded-t-sm h-[30%]"></div>
+<div class="w-flex-1 bg-surface-tint rounded-t-sm h-[60%]"></div>
+<div class="w-flex-1 bg-secondary-fixed rounded-t-sm h-[90%]"></div>
+<div class="w-flex-1 bg-surface-tint rounded-t-sm h-[40%]"></div>
+<div class="w-flex-1 bg-secondary-fixed rounded-t-sm h-[60%]"></div>
+</div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="bg-surface/90 backdrop-blur-sm px-4 py-2 rounded-full font-label-md text-label-md border border-outline-variant text-primary shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="graphic_eq">graphic_eq</span>
+                                    ElevenLabs Voice Sync
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features / Pipeline Section -->
+<section class="py-24 px-container-margin bg-surface-container-low border-y border-outline-variant">
+<div class="max-w-7xl mx-auto">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<h2 class="text-headline-lg font-headline-lg text-primary mb-4">The 2-Phase Production Pipeline</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Experience precision-engineered creativity. From raw ideas to final render in minutes, with zero technical overhead.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Phase 1 Card -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] p-8 border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="w-16 h-16 bg-surface-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl text-surface-tint" data-icon="edit_document">edit_document</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Phase 1: AI Scripting</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">Powered by NVIDIA Llama 3, intelligent algorithms structure your raw input into compelling, professional narratives optimized for video engagement.</p>
+<div class="bg-surface rounded-xl p-4 border border-outline-variant">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-2 h-2 rounded-full bg-secondary-fixed"></div>
+<span class="font-label-sm text-label-sm text-on-surface">Input</span>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant italic mb-4">
+                                "Create a welcome video for new employees explaining the company benefits."
+                            </div>
+<div class="flex items-center gap-2 mb-3 pt-3 border-t border-outline-variant">
+<div class="w-2 h-2 rounded-full bg-surface-tint"></div>
+<span class="font-label-sm text-label-sm text-on-surface">Llama 3 Output</span>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant bg-surface-container-low p-3 rounded-lg border-l-2 border-surface-tint">
+                                "Welcome to the team! Today, we're going to walk through our comprehensive benefits package, designed to support you both inside and outside the office..."
+                            </div>
+</div>
+</div>
+<!-- Phase 2 Card -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] p-8 border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="w-16 h-16 bg-surface-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl text-surface-tint" data-icon="videocam">videocam</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Phase 2: Avatar Production</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">HeyGen avatars sync flawlessly with ElevenLabs' hyper-realistic voices to deliver your script with natural expressions and cadence.</p>
+<div class="bg-surface rounded-xl p-4 border border-outline-variant relative overflow-hidden group">
+<!-- Simulated video player UI -->
+<img class="w-full h-40 object-cover rounded-lg mb-4" data-alt="A high quality still frame of a polished AI generated video. A sharp dressed corporate presenter is gesturing naturally. The UI elements of a sleek video player are overlaid, with a lime green progress bar indicating playback. The aesthetic is corporate modern neo organic, contrasting deep greens with stark white backgrounds." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFSxSjQD3c79VJJa0kSzfJQ4CF_fZagDq4xV-3eWEbjuKESMQLo-U8GvRbGTXiIgCGLodaeX8uaht2cpjx-hqMLl71lcVgU3AZoNs08Dyvz2fC2Tzt62N5_8VvKtD6Vt7OMeW4m005cwGcfFgAbP5RTjuH62tNbXlfdSWpYvdGSycLWInhh3fZPKiCTdYNehtF7jgF1oJpeALfxJy5hdGp90Btf45uXOb5IBHtETn5iUtLqm_f67FB5lmT_SERMsF9M_HalKe7SmQp"/>
+<div class="absolute top-6 right-6 bg-surface/80 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1 border border-outline-variant">
+<div class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></div>
+<span class="text-[10px] font-bold text-on-surface">Rendering</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Voice Gen (ElevenLabs)</span>
+<span class="text-surface-tint font-bold">100%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="w-full h-full bg-surface-tint rounded-full"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Lip Sync (HeyGen)</span>
+<span class="text-secondary-fixed font-bold">75%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-secondary-fixed rounded-full shadow-[inset_0_0_8px_rgba(191,244,63,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant w-full py-12">
+<div class="max-w-7xl mx-auto px-container-margin flex flex-col md:flex-row justify-between items-center gap-stack-gap">
+<div class="text-headline-sm font-headline-sm font-bold text-primary">
+                AI Vid Creator
+            </div>
+<div class="flex flex-wrap items-center gap-6">
+<a class="text-on-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm opacity-100 hover:opacity-80" href="#">Terms</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm opacity-100 hover:opacity-80" href="#">Privacy</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm opacity-100 hover:opacity-80" href="#">Careers</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm opacity-100 hover:opacity-80" href="#">Contact</a>
+</div>
+<div class="text-body-md font-body-md text-on-surface-variant">
+                © 2024 AI Vid Creator. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>
+
+<!-- Landing Page -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Vid Creator - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#002110",
+                      "outline-variant": "#c0c9c0",
+                      "on-primary-fixed-variant": "#1c5034",
+                      "tertiary-fixed": "#aff1c5",
+                      "tertiary-fixed-dim": "#94d5aa",
+                      "outline": "#717972",
+                      "inverse-primary": "#9cd3ae",
+                      "error-container": "#ffdad6",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#ebefed",
+                      "on-tertiary-fixed-variant": "#0d5131",
+                      "surface": "#f7faf8",
+                      "primary-fixed-dim": "#9cd3ae",
+                      "tertiary": "#002c17",
+                      "surface-variant": "#e0e3e1",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#a4d71e",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#181c1b",
+                      "on-primary-container": "#7cb18e",
+                      "surface-container-highest": "#e0e3e1",
+                      "inverse-surface": "#2d3130",
+                      "primary-fixed": "#b8efc9",
+                      "secondary": "#4c6700",
+                      "surface-tint": "#35684a",
+                      "surface-container-low": "#f1f4f2",
+                      "on-tertiary-container": "#74b38a",
+                      "on-secondary-container": "#506c00",
+                      "tertiary-container": "#004527",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#181c1b",
+                      "on-surface-variant": "#414942",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "primary": "#002c17",
+                      "surface-dim": "#d7dbd9",
+                      "secondary-fixed": "#bff43f",
+                      "on-tertiary-fixed": "#002110",
+                      "secondary-container": "#bcf13c",
+                      "surface-bright": "#f7faf8",
+                      "surface-container-high": "#e6e9e7",
+                      "primary-container": "#0d4429",
+                      "on-secondary-fixed-variant": "#384e00",
+                      "inverse-on-surface": "#eef1ef",
+                      "on-secondary-fixed": "#151f00",
+                      "background": "#f7faf8",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "card": "1.5rem"
+              },
+              "spacing": {
+                      "section-gap": "2.5rem",
+                      "stack-gap": "1rem",
+                      "sidebar-width": "280px",
+                      "card-padding": "1.5rem",
+                      "gutter": "1.5rem",
+                      "container-margin": "2rem"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "label-sm": ["Inter"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                      "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e0e3e1; border-radius: 4px; }
+        .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #c0c9c0; }
+        
+        .inset-shadow-active:active {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-[280px] h-screen fixed left-0 top-0 bg-surface border-r border-outline-variant flex flex-col py-6 z-40 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col gap-4">
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary tracking-tight">AI Vid Creator</h1>
+<p class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Enterprise AI</p>
+<button class="mt-4 w-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md py-3 rounded-full hover:bg-secondary-fixed-dim transition-colors inset-shadow-active flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                New Video
+            </button>
+</div>
+<nav class="flex-1 overflow-y-auto custom-scrollbar px-2">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-secondary-fixed font-bold bg-surface-container-high rounded-r-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors duration-200 rounded-lg ml-1" href="#">
+<span class="material-symbols-outlined">video_library</span>
+<span class="text-label-md font-label-md">My Videos</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors duration-200 rounded-lg ml-1" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span class="text-label-md font-label-md">Admin</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors duration-200 rounded-lg ml-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-8 px-4">
+<h3 class="text-label-sm font-label-sm text-outline uppercase tracking-wider mb-3 pl-2">Recent History</h3>
+<ul class="flex flex-col gap-2">
+<li class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-surface-variant overflow-hidden shrink-0 relative">
+<img alt="Video thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgVadtiFCa1mDbQfXdhdDiWAcm-yFq4s5pxcUbp2afYYcij4gci_0AYjcvCIX88FAhbHWwvAs1L6rrJqphAlSY1m9AvFpE1hisReWDaJGIo2ncEd7t5eqPmaYoujXP305JFX9qQ4138jkLluc8rpykLqhlmLZSzX6xjmJWkNKJ4p2lce-rC3siEweMYBg0SA2CSPdlxSnGM76oCDXqan-RN4yw-ziq1Q_02Qixolpq08L0xGHQdK5CncnyA9JNv0sAhSNX17q8TMUz"/>
+<div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition-colors"></div>
+</div>
+<div class="overflow-hidden">
+<p class="text-label-md font-label-md text-on-surface truncate">Q3 Marketing Update</p>
+<p class="text-label-sm font-label-sm text-outline truncate">Draft • 2 mins ago</p>
+</div>
+</li>
+<li class="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-surface-variant overflow-hidden shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-outline">video_file</span>
+</div>
+<div class="overflow-hidden">
+<p class="text-label-md font-label-md text-on-surface truncate">Product Launch Promo</p>
+<p class="text-label-sm font-label-sm text-outline truncate">Completed • Yesterday</p>
+</div>
+</li>
+</ul>
+</div>
+</nav>
+<div class="mt-auto px-6 pt-4 border-t border-outline-variant mx-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-label-sm">JS</div>
+<div class="flex-1 truncate">
+<p class="text-label-md font-label-md text-on-surface font-semibold truncate">Jane Smith</p>
+<p class="text-label-sm font-label-sm text-outline truncate">Pro Plan</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[280px] h-screen overflow-y-auto bg-surface-container-lowest p-container-margin relative">
+<!-- TopAppBar (Mobile Only) -->
+<div class="md:hidden flex justify-between items-center w-full mb-section-gap">
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary">AI Vid Creator</h1>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="max-w-5xl mx-auto flex flex-col gap-section-gap">
+<!-- Header & Progress Stepper -->
+<header class="flex flex-col gap-4">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-primary mb-2">Create New Video</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Describe your topic, and our AI will generate a script and produce a high-quality video.</p>
+</div>
+<div class="flex items-center gap-4 mt-4 bg-surface rounded-card p-4 border border-outline-variant">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-label-md shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2)]">1</div>
+<span class="text-label-md font-label-md text-primary font-bold">Scripting</span>
+</div>
+<div class="h-1 flex-1 bg-surface-variant rounded-full overflow-hidden relative">
+<div class="absolute inset-y-0 left-0 w-1/2 bg-secondary-fixed rounded-full"></div>
+</div>
+<div class="flex items-center gap-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-outline flex items-center justify-center font-bold text-label-md">2</div>
+<span class="text-label-md font-label-md text-on-surface-variant">Production</span>
+</div>
+</div>
+</header>
+<!-- Pipeline Container -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter relative">
+<!-- Decorative background elements -->
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-primary-fixed/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute bottom-0 -left-20 w-96 h-96 bg-tertiary-fixed/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Phase 1: Scripting -->
+<section class="lg:col-span-7 flex flex-col gap-stack-gap z-10">
+<div class="bg-surface-container-lowest rounded-[1.5rem] border border-outline-variant shadow-sm p-card-padding flex flex-col gap-4 transition-all hover:border-primary-fixed-dim">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">edit_document</span>
+<h3 class="text-headline-md font-headline-md text-primary">Phase 1: Concept to Script</h3>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface-variant font-semibold" for="topic-input">What is your video about?</label>
+<textarea class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary focus:bg-surface-container-lowest rounded-lg p-3 text-body-md text-on-surface transition-colors placeholder:text-outline resize-none" id="topic-input" placeholder="e.g., A 60-second explainer video about the benefits of switching to renewable energy, aimed at small business owners. Tone should be professional but optimistic." rows="3"></textarea>
+</div>
+<div class="flex justify-end mt-2">
+<button class="bg-primary text-on-primary font-label-md text-label-md py-2.5 px-6 rounded-full hover:bg-surface-tint transition-colors inset-shadow-active flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+                                Generate Script
+                            </button>
+</div>
+</div>
+<!-- Script Editor Area (Mocking NVIDIA NIM) -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] border border-outline-variant shadow-sm flex flex-col h-[400px] overflow-hidden relative group">
+<!-- Editor Header -->
+<div class="bg-surface-container flex items-center justify-between px-4 py-3 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">terminal</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">AI Script Editor</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-outline hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="text-outline hover:text-primary transition-colors p-1 rounded-md hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+<!-- Editor Content -->
+<div class="flex-1 p-4 bg-surface text-body-md font-body-md text-on-surface overflow-y-auto custom-scrollbar relative focus-within:ring-2 focus-within:ring-primary focus-within:ring-inset outline-none" contenteditable="true">
+<p class="mb-4 text-outline italic text-sm">Waiting for AI generation...</p>
+<!-- Mock generated content that would appear after clicking generate -->
+<div class="opacity-40 pointer-events-none">
+<p class="mb-4"><strong class="text-primary">[SCENE 1: INT. OFFICE - DAY]</strong></p>
+<p class="mb-4">We see a small business owner, SARAH, looking stressed over an energy bill. The lighting is slightly dim.</p>
+<p class="mb-4"><strong class="text-primary">NARRATOR (V.O)</strong><br/>Running a business is hard enough. But those energy costs? They shouldn't keep you up at night.</p>
+<p class="mb-4"><strong class="text-primary">[SCENE 2: EXT. ROOFTOP - DAY]</strong></p>
+<p class="mb-4">Cut to sleek solar panels on a commercial building catching the sunlight.</p>
+</div>
+</div>
+<!-- Generation Overlay (Hidden by default, shown during generation) -->
+<div class="absolute inset-0 bg-surface/80 backdrop-blur-sm flex flex-col items-center justify-center gap-4 hidden">
+<div class="w-12 h-12 border-4 border-surface-variant border-t-primary rounded-full animate-spin"></div>
+<p class="text-label-md font-label-md text-primary font-bold animate-pulse">Drafting script with NIM...</p>
+</div>
+</div>
+</section>
+<!-- Phase 2: Production Readiness -->
+<section class="lg:col-span-5 z-10 flex flex-col">
+<div class="bg-surface-container-lowest rounded-[1.5rem] border border-outline-variant shadow-sm p-card-padding flex flex-col gap-6 h-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline">movie_creation</span>
+<h3 class="text-headline-md font-headline-md text-on-surface-variant">Phase 2: Production</h3>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center text-center gap-4 py-8">
+<div class="w-24 h-24 rounded-full bg-surface-container-high flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-[48px] text-outline-variant">smart_toy</span>
+</div>
+<h4 class="text-body-lg font-body-lg font-semibold text-on-surface">Awaiting Script Approval</h4>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-[250px]">Review and edit your script in Phase 1 before initiating video production.</p>
+</div>
+<div class="bg-surface rounded-xl p-4 border border-outline-variant flex flex-col gap-3">
+<h5 class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Production Settings</h5>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface">Visual Style</span>
+<span class="text-label-md font-label-md text-primary font-semibold bg-primary-fixed/20 px-2 py-1 rounded">Corporate Modern</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface">Voiceover</span>
+<span class="text-label-md font-label-md text-primary font-semibold bg-primary-fixed/20 px-2 py-1 rounded">Professional Female</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface">Duration Estimate</span>
+<span class="text-label-md font-label-md text-on-surface-variant">~60 seconds</span>
+</div>
+</div>
+<!-- Produce Video Button (Disabled state) -->
+<button class="w-full bg-surface-container-highest text-outline font-label-md text-label-md py-4 rounded-xl cursor-not-allowed flex items-center justify-center gap-2 border border-outline-variant mt-auto" disabled="">
+<span class="material-symbols-outlined">play_circle</span>
+                            Produce Video
+                        </button>
+<!-- Note: When script is ready, the button above would change to: -->
+<!-- 
+                        <button class="w-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md py-4 rounded-xl hover:bg-secondary-fixed-dim transition-colors inset-shadow-active flex items-center justify-center gap-2 font-bold shadow-[0_4px_14px_rgba(191,244,63,0.3)] mt-auto">
+                            <span class="material-symbols-outlined">play_circle</span>
+                            Produce Video
+                        </button> 
+                        -->
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

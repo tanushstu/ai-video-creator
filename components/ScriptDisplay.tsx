@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, CheckCheck, FileText, Pencil } from 'lucide-react';
 
 interface Props {
   script: string;
@@ -21,48 +20,57 @@ export default function ScriptDisplay({ script, onChange }: Props) {
   const estimatedDuration = Math.round((wordCount / 150) * 60);
 
   return (
-    <div className="bg-[#1a1f2e] border border-indigo-500/30 rounded-2xl p-5">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bg-white rounded-[1.5rem] border border-[#c0c9c0] shadow-sm flex flex-col h-[400px] overflow-hidden">
+      {/* Header */}
+      <div className="bg-[#ebefed] flex items-center justify-between px-4 py-3 border-b border-[#c0c9c0]">
         <div className="flex items-center gap-2">
-          <FileText size={16} className="text-indigo-400" />
-          <h3 className="text-sm font-semibold text-white">Generated Script</h3>
-          <span className="flex items-center gap-1 text-xs text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 rounded px-1.5 py-0.5">
-            <Pencil size={10} />
+          <span className="material-symbols-outlined text-[#414942] text-[18px]">terminal</span>
+          <span className="text-xs font-semibold text-[#414942] uppercase tracking-wider">
+            AI Script Editor
+          </span>
+          <span className="flex items-center gap-1 text-xs text-[#35684a] bg-[#b8efc9] px-1.5 py-0.5 rounded border border-[#9cd3ae]">
+            <span className="material-symbols-outlined text-[10px]">edit</span>
             Editable
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-[#717972]">
             {wordCount} words · ~{estimatedDuration}s
           </span>
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white border border-white/10 hover:border-white/20 rounded-lg px-2.5 py-1.5 transition-colors"
+            className="flex items-center gap-1.5 text-xs text-[#414942] hover:text-[#002c17] border border-[#c0c9c0] hover:border-[#002c17] rounded-lg px-2.5 py-1.5 transition-colors"
           >
             {copied ? (
               <>
-                <CheckCheck size={12} className="text-emerald-400" />
-                <span className="text-emerald-400">Copied</span>
+                <span className="material-symbols-outlined text-[14px] text-[#35684a]">check_circle</span>
+                <span className="text-[#35684a]">Copied</span>
               </>
             ) : (
               <>
-                <Copy size={12} />
+                <span className="material-symbols-outlined text-[14px]">content_copy</span>
                 Copy
               </>
             )}
           </button>
         </div>
       </div>
+
+      {/* Editor */}
       <textarea
         value={script}
         onChange={(e) => onChange(e.target.value)}
-        rows={10}
-        className="w-full bg-[#0d1117] rounded-xl p-4 text-sm text-slate-300 leading-relaxed resize-y focus:outline-none focus:ring-1 focus:ring-indigo-500/50 transition-colors"
+        className="flex-1 p-4 bg-white text-base text-[#181c1b] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-[#002c17]/20 focus:ring-inset"
         spellCheck={false}
       />
-      <p className="mt-2 text-xs text-slate-600">
-        Edit the script above if needed, then click <span className="text-indigo-400 font-medium">Generate Audio &amp; Video</span> to continue.
-      </p>
+
+      {/* Footer hint */}
+      <div className="px-4 py-2 bg-[#f1f4f2] border-t border-[#c0c9c0]">
+        <p className="text-xs text-[#717972]">
+          Edit above if needed, then click{' '}
+          <span className="text-[#002c17] font-semibold">Generate Audio &amp; Video</span> to continue.
+        </p>
+      </div>
     </div>
   );
 }

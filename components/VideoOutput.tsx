@@ -1,7 +1,5 @@
 'use client';
 
-import { Download, Play, ExternalLink } from 'lucide-react';
-
 interface Props {
   videoUrl: string;
   audioUrl?: string;
@@ -17,47 +15,51 @@ export default function VideoOutput({ videoUrl, audioUrl }: Props) {
   }
 
   return (
-    <div className="bg-[#1a1f2e] border border-emerald-500/20 rounded-2xl p-5">
+    <div className="bg-white rounded-[1.5rem] border border-[#9cd3ae] shadow-sm p-5">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Play size={16} className="text-emerald-400" />
-          <h3 className="text-sm font-semibold text-white">Generated Video</h3>
+          <span
+            className="material-symbols-outlined text-[20px] text-[#35684a]"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            play_circle
+          </span>
+          <h3
+            className="text-base font-semibold text-[#002c17]"
+            style={{ fontFamily: "var(--font-hanken-grotesk), 'Hanken Grotesk', sans-serif" }}
+          >
+            Generated Video
+          </h3>
         </div>
         <div className="flex gap-2">
           <a
             href={videoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white border border-white/10 hover:border-white/20 rounded-lg px-2.5 py-1.5 transition-colors"
+            className="flex items-center gap-1.5 text-xs text-[#414942] hover:text-[#002c17] border border-[#c0c9c0] hover:border-[#002c17] rounded-lg px-2.5 py-1.5 transition-colors"
           >
-            <ExternalLink size={12} />
+            <span className="material-symbols-outlined text-[14px]">open_in_new</span>
             Open
           </a>
           <button
             onClick={handleDownload}
-            className="flex items-center gap-1.5 text-xs bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 rounded-lg px-2.5 py-1.5 transition-colors"
+            className="flex items-center gap-1.5 text-xs bg-[#bff43f] text-[#151f00] hover:bg-[#a4d71e] border border-[#a4d71e] rounded-lg px-2.5 py-1.5 transition-colors font-medium"
           >
-            <Download size={12} />
+            <span className="material-symbols-outlined text-[14px]">download</span>
             Download
           </button>
         </div>
       </div>
 
-      <div className="rounded-xl overflow-hidden bg-black aspect-video">
-        <video
-          src={videoUrl}
-          controls
-          autoPlay
-          className="w-full h-full"
-          playsInline
-        >
+      <div className="rounded-xl overflow-hidden bg-[#181c1b] aspect-video">
+        <video src={videoUrl} controls autoPlay className="w-full h-full" playsInline>
           Your browser does not support video playback.
         </video>
       </div>
 
       {audioUrl && (
         <div className="mt-3">
-          <p className="text-xs text-slate-500 mb-1.5">Preview Audio</p>
+          <p className="text-xs text-[#717972] mb-1.5">Preview Audio</p>
           <audio controls src={audioUrl} className="w-full h-8" />
         </div>
       )}

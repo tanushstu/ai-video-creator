@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Sparkles, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 export default function ResetPasswordPage() {
@@ -15,15 +14,12 @@ export default function ResetPasswordPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // When arriving via hash fragment (implicit flow), Supabase JS detects the
-    // access_token in the hash and fires PASSWORD_RECOVERY on authStateChange
     const supabase = createClient();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') {
         setReady(true);
       }
     });
-    // Also check if already has a session (PKCE flow where session is already set)
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) setReady(true);
     });
@@ -47,7 +43,6 @@ export default function ResetPasswordPage() {
     const supabase = createClient();
     const { error: authError } = await supabase.auth.updateUser({ password });
 
-
     if (authError) {
       setError(authError.message);
       setLoading(false);
@@ -58,26 +53,42 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="w-full max-w-md">
-      <div className="flex items-center gap-3 mb-8 justify-center">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
-          <Sparkles size={18} className="text-white" />
+    <div>
+      {/* Brand Header */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-[#002c17] text-white mb-4 shadow-sm">
+          <span
+            className="material-symbols-outlined text-4xl"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            video_camera_front
+          </span>
         </div>
-        <div>
-          <h1 className="font-bold text-white text-lg leading-none">AI Vid Creator</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Set a new password</p>
-        </div>
+        <h1
+          className="text-[32px] leading-10 font-semibold tracking-tight text-[#002c17]"
+          style={{ fontFamily: "var(--font-hanken-grotesk), 'Hanken Grotesk', sans-serif" }}
+        >
+          AI Vid Creator
+        </h1>
+        <p className="text-base text-[#414942] mt-2">Set a new password</p>
       </div>
 
-      <div className="bg-[#1a1f2e] border border-white/10 rounded-2xl p-8">
-        <h2 className="text-xl font-semibold text-white mb-6">Set new password</h2>
+      <div className="glass-panel rounded-xl p-6">
+        <h2
+          className="text-2xl font-semibold text-[#002c17] mb-6"
+          style={{ fontFamily: "var(--font-hanken-grotesk), 'Hanken Grotesk', sans-serif" }}
+        >
+          Set new password
+        </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">
-              New password <span className="text-slate-600 text-xs font-normal">(min 6 chars)</span>
+            <label className="block text-xs font-semibold text-[#181c1b] mb-1.5">
+              New password{' '}
+              <span className="text-[#717972] font-normal">(min 6 chars)</span>
             </label>
-            <div className="relative">
+            <div className="input-field flex items-center bg-[#f1f4f2] border border-[#e0e3e1] rounded-lg px-3 py-2.5">
+              <span className="material-symbols-outlined text-[#717972] mr-2 text-[20px]">lock</span>
               <input
                 type={showPw ? 'text' : 'password'}
                 value={password}
@@ -85,33 +96,40 @@ export default function ResetPasswordPage() {
                 required
                 autoComplete="new-password"
                 placeholder="••••••••"
-                className="w-full bg-[#0d1117] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors pr-10"
+                className="w-full bg-transparent border-none p-0 text-base text-[#181c1b] placeholder-[#717972] focus:ring-0 outline-none"
               />
               <button
                 type="button"
                 onClick={() => setShowPw((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                className="text-[#717972] hover:text-[#181c1b] transition-colors focus:outline-none ml-2"
               >
-                {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
+                <span className="material-symbols-outlined text-[20px]">
+                  {showPw ? 'visibility_off' : 'visibility'}
+                </span>
               </button>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1.5">Confirm password</label>
-            <input
-              type={showPw ? 'text' : 'password'}
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              required
-              autoComplete="new-password"
-              placeholder="••••••••"
-              className="w-full bg-[#0d1117] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
-            />
+            <label className="block text-xs font-semibold text-[#181c1b] mb-1.5">
+              Confirm password
+            </label>
+            <div className="input-field flex items-center bg-[#f1f4f2] border border-[#e0e3e1] rounded-lg px-3 py-2.5">
+              <span className="material-symbols-outlined text-[#717972] mr-2 text-[20px]">lock_reset</span>
+              <input
+                type={showPw ? 'text' : 'password'}
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+                autoComplete="new-password"
+                placeholder="••••••••"
+                className="w-full bg-transparent border-none p-0 text-base text-[#181c1b] placeholder-[#717972] focus:ring-0 outline-none"
+              />
+            </div>
           </div>
 
           {error && (
-            <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2">
+            <p className="text-sm text-[#ba1a1a] bg-[#ffdad6] border border-[#ba1a1a]/20 rounded-lg px-3 py-2">
               {error}
             </p>
           )}
@@ -119,10 +137,24 @@ export default function ResetPasswordPage() {
           <button
             type="submit"
             disabled={loading || !ready}
-            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 text-white font-semibold py-2.5 rounded-xl transition-all text-sm mt-2"
+            className="btn-primary w-full bg-[#002c17] text-white rounded-lg py-3 text-sm font-bold mt-2 shadow-sm flex items-center justify-center gap-2 hover:bg-[#35684a] disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loading && <Loader2 size={15} className="animate-spin" />}
-            {loading ? 'Updating…' : !ready ? 'Verifying session…' : 'Update Password'}
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Updating…
+              </>
+            ) : !ready ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Verifying session…
+              </>
+            ) : (
+              <>
+                Update Password
+                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+              </>
+            )}
           </button>
         </form>
       </div>
