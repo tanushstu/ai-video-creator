@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
   const tokenHash = searchParams.get('token_hash');
-  const type = searchParams.get('type') as 'recovery' | 'signup' | 'email' | null;
+  const type = searchParams.get('type') as 'recovery' | 'signup' | 'email' | 'magiclink' | null;
   const next = searchParams.get('next') ?? '/dashboard';
 
   // Supabase passes errors as query params when token is invalid/expired

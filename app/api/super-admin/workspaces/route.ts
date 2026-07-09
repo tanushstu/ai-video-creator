@@ -87,17 +87,31 @@ export async function POST(req: NextRequest) {
 
   const adminUsername = adminEmail.trim().split('@')[0];
 
-  // 3. Insert into public.users
-  await admin.from('users').insert({
+  // 3. Upsert into public.users — a row for this id may already exist (created
+  // the instant the auth user was provisioned above), so a plain insert here
+  // can silently fail on the primary-key conflict and leave the account stuck
+  // with default role='user'/workspace_id=null. Upsert guarantees these fields
+  // land correctly either way.
+  const { error: profileErr } = await admin.from('users').upsert({
     id: authData.user.id,
     email: adminEmail.trim(),
     username: adminUsername,
     role: 'workspace_admin',
     workspace_id: workspace.id,
-  });
+  }, { onConflict: 'id' });
+
+  if (profileErr) {
+    // Roll back the auth user and workspace so we don't leave a broken half-created account
+    await admin.auth.admin.deleteUser(authData.user.id);
+    await admin.from('workspaces').delete().eq('id', workspace.id);
+    return NextResponse.json({ error: profileErr.message }, { status: 500 });
+  }
 
   // 4. Create empty workspace_api_keys row
-  await admin.from('workspace_api_keys').insert({ workspace_id: workspace.id });
+  const { error: keysErr } = await admin.from('workspace_api_keys').insert({ workspace_id: workspace.id });
+  if (keysErr) {
+    return NextResponse.json({ error: keysErr.message }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true, workspaceId: workspace.id }, { status: 201 });
 }

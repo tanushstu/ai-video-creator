@@ -19,10 +19,16 @@ export async function POST(req: NextRequest) {
   const { data, error } = await admin.auth.admin.generateLink({
     type: 'magiclink',
     email,
-    options: { redirectTo: req.nextUrl.origin },
+    options: { redirectTo: `${req.nextUrl.origin}/dashboard` },
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  return NextResponse.json({ link: data.properties.action_link });
+  // Route through our own callback (not Supabase's hosted action_link) so the
+  // token is verified server-side and a real cookie session gets set — visiting
+  // action_link directly redirects to the origin with tokens only in the URL
+  // fragment, which the server-side session (proxy.ts, API routes) never sees.
+  const link = `${req.nextUrl.origin}/api/auth/callback?token_hash=${data.properties.hashed_token}&type=magiclink&next=/dashboard`;
+
+  return NextResponse.json({ link });
 }

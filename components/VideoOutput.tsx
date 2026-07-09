@@ -1,11 +1,16 @@
 'use client';
 
+import { useState } from 'react';
+import UploadToSocialsModal from './UploadToSocialsModal';
+
 interface Props {
   videoUrl: string;
   audioUrl?: string;
 }
 
 export default function VideoOutput({ videoUrl, audioUrl }: Props) {
+  const [showUpload, setShowUpload] = useState(false);
+
   function handleDownload() {
     const a = document.createElement('a');
     a.href = videoUrl;
@@ -48,6 +53,13 @@ export default function VideoOutput({ videoUrl, audioUrl }: Props) {
             <span className="material-symbols-outlined text-[14px]">download</span>
             Download
           </button>
+          <button
+            onClick={() => setShowUpload(true)}
+            className="flex items-center gap-1.5 text-xs bg-[#002c17] text-white hover:bg-[#014023] border border-[#002c17] rounded-lg px-2.5 py-1.5 transition-colors font-medium"
+          >
+            <span className="material-symbols-outlined text-[14px]">share</span>
+            Upload to Socials
+          </button>
         </div>
       </div>
 
@@ -62,6 +74,10 @@ export default function VideoOutput({ videoUrl, audioUrl }: Props) {
           <p className="text-xs text-[#717972] mb-1.5">Preview Audio</p>
           <audio controls src={audioUrl} className="w-full h-8" />
         </div>
+      )}
+
+      {showUpload && (
+        <UploadToSocialsModal videoUrl={videoUrl} onClose={() => setShowUpload(false)} />
       )}
     </div>
   );

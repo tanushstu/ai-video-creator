@@ -62,14 +62,20 @@ export async function POST(req: NextRequest) {
 
   const username = email.trim().split('@')[0];
 
-  // Insert into public.users with the workspace
-  const { error: insertErr } = await admin.from('users').insert({
-    id: authData.user.id,
-    email: email.trim(),
-    username,
-    role,
-    workspace_id: auth.workspaceId,
-  });
+  // Upsert into public.users with the workspace.
+  // A DB trigger on auth.users may already have auto-created this row, so we
+  // upsert on the primary key (id) to set the correct workspace/role/username
+  // instead of failing on a duplicate-key error.
+  const { error: insertErr } = await admin.from('users').upsert(
+    {
+      id: authData.user.id,
+      email: email.trim(),
+      username,
+      role,
+      workspace_id: auth.workspaceId,
+    },
+    { onConflict: 'id' },
+  );
 
   if (insertErr) {
     // Roll back the auth user
