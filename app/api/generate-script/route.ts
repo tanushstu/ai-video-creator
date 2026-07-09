@@ -17,14 +17,15 @@ export async function POST(req: NextRequest) {
     const duration = typeof durationSeconds === 'number' && durationSeconds > 0 ? durationSeconds : 60;
     const targetWords = Math.round(duration * WORDS_PER_SECOND);
 
-    const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        // keys.nvidia_key now holds the workspace's Google Gemini API key (column name kept for compatibility)
         Authorization: `Bearer ${keys.nvidia_key}`,
       },
       body: JSON.stringify({
-        model: 'meta/llama-3.3-70b-instruct',
+        model: 'gemini-2.5-flash',
         messages: [
           {
             role: 'system',
@@ -54,7 +55,7 @@ Rules:
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
       return NextResponse.json(
-        { error: `NVIDIA NIM API error: ${error.message || error.detail || response.statusText}`, service: 'NVIDIA NIM' },
+        { error: `Google Gemini API error: ${error.error?.message || error.message || error.detail || response.statusText}`, service: 'Google Gemini' },
         { status: response.status }
       );
     }
@@ -63,7 +64,7 @@ Rules:
     const script = data.choices?.[0]?.message?.content?.trim();
 
     if (!script) {
-      return NextResponse.json({ error: 'NVIDIA NIM returned an empty script', service: 'NVIDIA NIM' }, { status: 500 });
+      return NextResponse.json({ error: 'Google Gemini returned an empty script', service: 'Google Gemini' }, { status: 500 });
     }
 
     return NextResponse.json({ script });
@@ -72,6 +73,6 @@ Rules:
     const message = err instanceof Error ? err.message : 'Unknown error';
     const cause = err instanceof Error && (err as NodeJS.ErrnoException).cause;
     console.error('[generate-script] cause:', cause);
-    return NextResponse.json({ error: `Script generation failed: ${message}`, cause: String(cause), service: 'NVIDIA NIM' }, { status: 500 });
+    return NextResponse.json({ error: `Script generation failed: ${message}`, cause: String(cause), service: 'Google Gemini' }, { status: 500 });
   }
 }

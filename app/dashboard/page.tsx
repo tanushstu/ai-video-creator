@@ -549,7 +549,7 @@ function DashboardContent() {
                     <h5 className="text-xs font-semibold text-[#717972] uppercase tracking-wider mb-3">How It Works</h5>
                     <div className="space-y-3">
                       {[
-                        { icon: 'auto_awesome', title: 'Script', desc: 'NVIDIA NIM writes a script sized to your chosen duration' },
+                        { icon: 'auto_awesome', title: 'Script', desc: 'Google Gemini writes a script sized to your chosen duration' },
                         { icon: 'edit', title: 'Review', desc: 'Read and edit the script before audio is generated' },
                         { icon: 'record_voice_over', title: 'Voice', desc: 'ElevenLabs synthesizes natural-sounding audio' },
                         { icon: 'videocam', title: 'Video', desc: 'HeyGen renders an AI avatar speaking your script' },

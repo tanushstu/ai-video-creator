@@ -141,7 +141,7 @@ function HomeContent() {
                 </span>
               </h1>
               <p className="text-lg text-[#414942] max-w-xl leading-7">
-                Turn text scripts into professional video content using NVIDIA Llama 3 for intelligent
+                Turn text scripts into professional video content using Google Gemini for intelligent
                 scripting, ElevenLabs for hyper-realistic voices, and HeyGen for lifelike avatars.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
@@ -162,7 +162,7 @@ function HomeContent() {
               </div>
               <div className="pt-8 flex items-center gap-4 text-xs text-[#414942]">
                 <span>Powered by:</span>
-                <span className="font-bold text-[#181c1b]">NVIDIA</span>
+                <span className="font-bold text-[#181c1b]">Google Gemini</span>
                 <span className="w-1 h-1 rounded-full bg-[#c0c9c0]" />
                 <span className="font-bold text-[#181c1b]">ElevenLabs</span>
                 <span className="w-1 h-1 rounded-full bg-[#c0c9c0]" />
@@ -267,7 +267,7 @@ function HomeContent() {
                   Phase 1: AI Scripting
                 </h3>
                 <p className="text-base text-[#414942] mb-6 leading-6">
-                  Powered by NVIDIA Llama 3, intelligent algorithms structure your raw input into
+                  Powered by Google Gemini, intelligent algorithms structure your raw input into
                   compelling, professional narratives optimized for video engagement.
                 </p>
                 <div className="bg-[#f7faf8] rounded-xl p-4 border border-[#c0c9c0]">

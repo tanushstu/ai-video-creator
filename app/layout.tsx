@@ -16,7 +16,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "AI Vid Creator",
-  description: "Automated AI video generation — NVIDIA NIM, ElevenLabs & HeyGen",
+  description: "Automated AI video generation — Google Gemini, ElevenLabs & HeyGen",
 };
 
 export default function RootLayout({

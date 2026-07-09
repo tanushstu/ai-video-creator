@@ -110,7 +110,7 @@ export default function WorkspaceAdminPage() {
   };
 
   const keyFields: { key: keyof KeysState; label: string; placeholder: string; showKey: keyof typeof show; icon: string }[] = [
-    { key: 'nvidia_key', label: 'NVIDIA NIM API Key', placeholder: 'nvapi-…', showKey: 'nvidia', icon: 'memory' },
+    { key: 'nvidia_key', label: 'Google Gemini API Key', placeholder: 'AIza…', showKey: 'nvidia', icon: 'memory' },
     { key: 'elevenlabs_key', label: 'ElevenLabs API Key', placeholder: 'sk-…', showKey: 'elevenlabs', icon: 'record_voice_over' },
     { key: 'heygen_key', label: 'HeyGen API Key', placeholder: 'NjI3…', showKey: 'heygen', icon: 'videocam' },
     { key: 'submagic_key', label: 'Submagic API Key', placeholder: 'sub-…', showKey: 'submagic', icon: 'auto_awesome' },
