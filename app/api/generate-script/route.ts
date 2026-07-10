@@ -48,7 +48,13 @@ Rules:
           },
         ],
         temperature: 0.7,
-        max_tokens: Math.round(targetWords * 1.5),
+        // gemini-2.5-flash is a "thinking" model: by default it spends the output budget on hidden
+        // reasoning before writing, which truncated the script. Disable thinking so the whole budget
+        // goes to the script itself.
+        reasoning_effort: 'none',
+        // Generous ceiling (~1.5 tokens/word plus headroom) so longer durations are never cut off;
+        // the actual length is controlled by the word-count instructions in the prompt above.
+        max_tokens: Math.max(600, Math.round(targetWords * 3)),
       }),
     });
 
