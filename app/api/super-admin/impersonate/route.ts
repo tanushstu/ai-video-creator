@@ -15,11 +15,16 @@ export async function POST(req: NextRequest) {
   const { email } = await req.json();
   if (!email) return NextResponse.json({ error: 'Missing email' }, { status: 400 });
 
+  // Use the configured public site URL rather than req.nextUrl.origin — behind a
+  // reverse proxy that doesn't forward the real Host header, origin falls back to
+  // the server's bind address (e.g. 0.0.0.0:3000), producing an unreachable link.
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin;
+
   const admin = createAdminClient();
   const { data, error } = await admin.auth.admin.generateLink({
     type: 'magiclink',
     email,
-    options: { redirectTo: `${req.nextUrl.origin}/dashboard` },
+    options: { redirectTo: `${origin}/dashboard` },
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -28,7 +33,7 @@ export async function POST(req: NextRequest) {
   // token is verified server-side and a real cookie session gets set — visiting
   // action_link directly redirects to the origin with tokens only in the URL
   // fragment, which the server-side session (proxy.ts, API routes) never sees.
-  const link = `${req.nextUrl.origin}/api/auth/callback?token_hash=${data.properties.hashed_token}&type=magiclink&next=/dashboard`;
+  const link = `${origin}/api/auth/callback?token_hash=${data.properties.hashed_token}&type=magiclink&next=/dashboard`;
 
   return NextResponse.json({ link });
 }

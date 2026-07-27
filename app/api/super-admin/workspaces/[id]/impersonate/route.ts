@@ -32,15 +32,20 @@ export async function POST(
     return NextResponse.json({ error: 'No workspace admin found for this workspace' }, { status: 404 });
   }
 
+  // Use the configured public site URL rather than req.nextUrl.origin — behind a
+  // reverse proxy that doesn't forward the real Host header, origin falls back to
+  // the server's bind address (e.g. 0.0.0.0:3000), producing an unreachable link.
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin;
+
   const { data, error } = await admin.auth.admin.generateLink({
     type: 'magiclink',
     email: wsAdmin.email,
-    options: { redirectTo: `${req.nextUrl.origin}/workspace-admin` },
+    options: { redirectTo: `${origin}/workspace-admin` },
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const link = `${req.nextUrl.origin}/api/auth/callback?token_hash=${data.properties.hashed_token}&type=magiclink&next=/workspace-admin`;
+  const link = `${origin}/api/auth/callback?token_hash=${data.properties.hashed_token}&type=magiclink&next=/workspace-admin`;
 
   return NextResponse.json({ link });
 }
